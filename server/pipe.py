@@ -23,10 +23,8 @@ def pipe_server(main_stdin, w):
             try:
                 serd_num_seq: str = covert_number_raw(number_seq_raw=number_seq_raw)
             except ValueError:
-                pipe_server_logger.warn("Error input")
+                pipe_server_logger.warn("The input is invalid, please check the value.")
             else:
-                pipe_server_logger.info(f"Send :{serd_num_seq}")
-
                 ret: int = write_to_pipe(fd=fd, serd_num_seq=serd_num_seq)
 
                 if ret:

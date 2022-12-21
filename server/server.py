@@ -39,21 +39,20 @@ def server(
                 try:
                     serd_num_seq: str = covert_number_raw(number_seq_raw=number_seq_raw)
                 except ValueError:
-                    server_logger.warn("Error input", exc_info=True)
+                    server_logger.warn("The input is invalid, please check the value.")
+                else:
+                    socket_ret = write_to_socket(
+                        connection=connection, serd_num_seq=serd_num_seq
+                    )
 
-                server_logger.info(f"Send :{serd_num_seq}")
+                    pipe_ret = write_to_pipe(fd=fd, serd_num_seq=serd_num_seq)
 
-                socket_ret = write_to_socket(
-                    connection=connection, serd_num_seq=serd_num_seq
-                )
+                    shared_memory_ret = write_to_shared_memory(
+                        data_shm=data_shm,
+                        stat_shm=stat_shm,
+                        serd_num_seq=serd_num_seq,
+                    )
 
-                pipe_ret = write_to_pipe(fd=fd, serd_num_seq=serd_num_seq)
-
-                shared_memory_ret = write_to_shared_memory(
-                    data_shm=data_shm,
-                    stat_shm=stat_shm,
-                    serd_num_seq=serd_num_seq,
-                )
-
-                if socket_ret and pipe_ret and shared_memory_ret:
-                    break
+                    if socket_ret and pipe_ret and shared_memory_ret:
+                        break
+    server_logger = logging.getLogger("Close server")

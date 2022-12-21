@@ -25,13 +25,13 @@ def socket_server(main_stdin, socket_info: SOCKET_INFO):
                 try:
                     serd_num_seq: str = covert_number_raw(number_seq_raw=number_seq_raw)
                 except ValueError:
-                    server_logger.warn("Error input", exc_info=True)
+                    server_logger.warn("The input is invalid, please check the value.")
+                else:
+                    ret = write_to_socket(
+                        connection=connection, serd_num_seq=serd_num_seq
+                    )
 
-                server_logger.info(f"Send :{serd_num_seq}")
-
-                ret = write_to_socket(connection=connection, serd_num_seq=serd_num_seq)
-
-                if ret:
-                    break
+                    if ret:
+                        break
 
     server_logger.info("Close socket server")
