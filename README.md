@@ -22,6 +22,23 @@ Start the Mean, Median, Mode Calculator
 ### How to quit a service in execution
 Type `q` and click `[Enter]`
 
+
+## Docker
+### Build image
+
+`docker build -t {image_name} .`
+
+### Run container
+#### Run service
+`docker run -it --rm --name {app_name} {image_name}`
+
+#### Run socket service
+`docker run -it --rm --name my-running-app my-python-app --c=Client1`
+#### Run pipe service
+`docker run -it --rm --name my-running-app my-python-app --c=Client2`
+#### Run shared memory service
+`docker run -it --rm --name my-running-app my-python-app --c=Client1`
+
+
 ## TODO
 * Unit test
-* Dockerize
