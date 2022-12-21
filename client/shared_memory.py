@@ -40,4 +40,4 @@ def shared_memory_client(data_shm, stat_shm):
         except Exception:
             client_logger.warning("Error", exc_info=True)
 
-    client_logger.info("Quit shared memory client")
+    client_logger.info("Close shared memory client")

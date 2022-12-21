@@ -10,7 +10,6 @@ import multiprocessing
 from multiprocessing import Array, Process, Value
 from enum import Enum
 
-
 from client.pipe import pipe_client
 from client.shared_memory import shared_memory_client
 from client.socket import socket_client
@@ -55,7 +54,7 @@ def execute_server():
     ):
         # Setup child processes
         procs = [
-            multiprocessing.Process(
+            Process(
                 target=server,
                 args=(
                     main_stdin,
@@ -65,9 +64,9 @@ def execute_server():
                     stat_shm,
                 ),
             ),
-            multiprocessing.Process(target=socket_client, args=(socket_info,)),
-            multiprocessing.Process(target=pipe_client, args=(read_pipe,)),
-            multiprocessing.Process(
+            Process(target=socket_client, args=(socket_info,)),
+            Process(target=pipe_client, args=(read_pipe,)),
+            Process(
                 target=shared_memory_client,
                 args=(
                     data_shm,

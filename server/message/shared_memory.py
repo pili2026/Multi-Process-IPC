@@ -6,7 +6,8 @@ from utils.util import BUFF_SIZE
 
 def write_to_shared_memory(
     data_shm: SynchronizedString, stat_shm: Synchronized, serd_num_seq: str
-) -> None:
+) -> int or None:
+
     # write to shared memory
     while stat_shm.value != 0:
         time.sleep(0.01)
@@ -24,3 +25,6 @@ def write_to_shared_memory(
     while stat_shm.value != 2:
         time.sleep(0.01)
     stat_shm.value = -1
+
+    if serd_num_seq == '"quit"':
+        return -1

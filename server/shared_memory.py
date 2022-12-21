@@ -7,7 +7,8 @@ import sys
 import time
 
 from multiprocessing.sharedctypes import Synchronized, SynchronizedString
-from utils.util import BUFF_SIZE
+from server.message.shared_memory import write_to_shared_memory
+from utils.util import BUFF_SIZE, covert_number_raw
 
 
 def shared_memory_server(
@@ -21,50 +22,20 @@ def shared_memory_server(
 
         number_seq_raw: str = input("Server input integers:")
 
-        if number_seq_raw != "q":
-            number_seq = [int(s) for s in number_seq_raw.split()]
-            serd_num_seq = json.dumps(number_seq)
-            server_logger.info(f"Send :{serd_num_seq}")
+        try:
+            serd_num_seq: str = covert_number_raw(number_seq_raw=number_seq_raw)
+        except ValueError:
+            server_logger.warn("Error input", exc_info=True)
 
-            # write to shared memory
-            while stat_shm.value != 0:
-                time.sleep(0.01)
-            serd_num_seq_bytes = serd_num_seq.encode()
-            l = len(serd_num_seq_bytes)
-            c = 0
+        server_logger.info(f"Send :{serd_num_seq}")
 
-            while c < l:
-                h = min(l, c + BUFF_SIZE)
-                while stat_shm.value not in (0, 2):
-                    time.sleep(0.01)
-                data_shm.value = serd_num_seq_bytes[c:h]
-                stat_shm.value = 1
-                c = h
-            while stat_shm.value != 2:
-                time.sleep(0.01)
-            stat_shm.value = -1
+        ret = write_to_shared_memory(
+            data_shm=data_shm,
+            stat_shm=stat_shm,
+            serd_num_seq=serd_num_seq,
+        )
 
-        else:
-            serd_num_seq = json.dumps("quit")
-            server_logger.info(f"Send :{serd_num_seq}")
-
-            # write to shared memory
-            while stat_shm.value != 0:
-                time.sleep(0.01)
-            serd_num_seq_bytes = serd_num_seq.encode()
-            l = len(serd_num_seq_bytes)
-            c = 0
-
-            while c < l:
-                h = min(l, c + BUFF_SIZE)
-                while stat_shm.value not in (0, 2):
-                    time.sleep(0.01)
-                data_shm.value = serd_num_seq_bytes[c:h]
-                stat_shm.value = 1
-                c = h
-            while stat_shm.value != 2:
-                time.sleep(0.01)
-            stat_shm.value = -1
+        if ret:
             break
 
     # Log completion

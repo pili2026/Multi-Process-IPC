@@ -1,4 +1,5 @@
 # Multi-Process-IPC
+Implementation of Mean, Median, Mode Calculator using IPC
 
 ## Environment
 * Ubuntu 18.04

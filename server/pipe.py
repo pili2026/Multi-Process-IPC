@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
-import json
 import logging
 import os
-
-from multiprocessing.connection import Connection
 import sys
-from server.message.pipe import write_to_pipe
 
+from server.message.pipe import write_to_pipe
 from utils.util import covert_number_raw
 
 # Setup simple logging
@@ -26,15 +23,14 @@ def pipe_server(main_stdin, w):
             try:
                 serd_num_seq: str = covert_number_raw(number_seq_raw=number_seq_raw)
             except ValueError:
-                pipe_server_logger.warn("Error input", exc_info=True)
-
-            pipe_server_logger.info(f"Send :{serd_num_seq}")
-
-            if serd_num_seq != '"quit"':
-                write_to_pipe(fd=fd, serd_num_seq=serd_num_seq)
+                pipe_server_logger.warn("Error input")
             else:
-                write_to_pipe(fd=fd, serd_num_seq=serd_num_seq)
-                break
+                pipe_server_logger.info(f"Send :{serd_num_seq}")
+
+                ret: int = write_to_pipe(fd=fd, serd_num_seq=serd_num_seq)
+
+                if ret:
+                    break
 
     # Log completion
     pipe_server_logger.info("Close pipe server")

@@ -1,18 +1,15 @@
 #!/usr/bin/env python3
-
-import json
 import logging
 import os
 import socket
 import sys
-import time
 
 from multiprocessing.sharedctypes import SynchronizedString, Synchronized
 from server.message.pipe import write_to_pipe
 from server.message.shared_memory import write_to_shared_memory
 from server.message.socket import write_to_socket
 
-from utils.util import SOCKET_INFO, BUFF_SIZE, covert_number_raw
+from utils.util import SOCKET_INFO, covert_number_raw
 
 
 def server(
@@ -46,27 +43,17 @@ def server(
 
                 server_logger.info(f"Send :{serd_num_seq}")
 
-                if serd_num_seq != '"quit"':
+                socket_ret = write_to_socket(
+                    connection=connection, serd_num_seq=serd_num_seq
+                )
 
-                    write_to_socket(connection=connection, serd_num_seq=serd_num_seq)
+                pipe_ret = write_to_pipe(fd=fd, serd_num_seq=serd_num_seq)
 
-                    write_to_pipe(fd=fd, serd_num_seq=serd_num_seq)
-                    fd.flush()
+                shared_memory_ret = write_to_shared_memory(
+                    data_shm=data_shm,
+                    stat_shm=stat_shm,
+                    serd_num_seq=serd_num_seq,
+                )
 
-                    write_to_shared_memory(
-                        data_shm=data_shm,
-                        stat_shm=stat_shm,
-                        serd_num_seq=serd_num_seq,
-                    )
-                else:
-                    write_to_socket(connection=connection, serd_num_seq=serd_num_seq)
-
-                    write_to_pipe(fd=fd, serd_num_seq=serd_num_seq)
-                    fd.flush()
-
-                    write_to_shared_memory(
-                        data_shm=data_shm,
-                        stat_shm=stat_shm,
-                        serd_num_seq=serd_num_seq,
-                    )
+                if socket_ret and pipe_ret and shared_memory_ret:
                     break

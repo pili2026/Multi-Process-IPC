@@ -8,10 +8,11 @@ from multiprocessing.connection import Connection
 # Setup simple logging
 logging.basicConfig(level=logging.INFO)
 
+
 def pipe_client(read_pipe):
     import statistics
-    
-    client_logger = logging.getLogger('pipe_client')
+
+    client_logger = logging.getLogger("pipe_client")
     client_logger.info(f"Pid:{os.getpid()}")
 
     with os.fdopen(read_pipe.fileno(), "r") as fd:

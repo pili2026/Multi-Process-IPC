@@ -1,10 +1,10 @@
-import json
 import logging
 import os
 import socket
 import sys
 
-from utils.util import SOCKET_INFO
+from server.message.socket import write_to_socket
+from utils.util import SOCKET_INFO, covert_number_raw
 
 
 def socket_server(main_stdin, socket_info: SOCKET_INFO):
@@ -20,24 +20,18 @@ def socket_server(main_stdin, socket_info: SOCKET_INFO):
         with connection:
             server_logger.info("Ready")
             while True:
+                number_seq_raw: str = input("Server input integers:")
+
                 try:
-                    number_seq_raw: str = input("Server input integers:")
-                    serd_num_seq = None
-
-                    if number_seq_raw != "q":
-                        number_seq = [int(s) for s in number_seq_raw.split()]
-                        serd_num_seq = json.dumps(number_seq)
-                        server_logger.info(f"Send :{serd_num_seq}")
-
-                        # write to socket
-                        connection.sendall(f"{serd_num_seq}\n".encode())
-                    else:
-                        serd_num_seq = json.dumps("quit")
-                        server_logger.info(f"Send :{serd_num_seq}")
-
-                        # write to socket
-                        connection.sendall(f"{serd_num_seq}\n".encode())
-                        break
-
+                    serd_num_seq: str = covert_number_raw(number_seq_raw=number_seq_raw)
                 except ValueError:
                     server_logger.warn("Error input", exc_info=True)
+
+                server_logger.info(f"Send :{serd_num_seq}")
+
+                ret = write_to_socket(connection=connection, serd_num_seq=serd_num_seq)
+
+                if ret:
+                    break
+
+    server_logger.info("Close socket server")
