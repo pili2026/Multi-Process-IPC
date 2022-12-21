@@ -20,7 +20,7 @@ def socket_server(main_stdin, socket_info: SOCKET_INFO):
         with connection:
             server_logger.info("Ready")
             while True:
-                number_seq_raw: str = input("Server input integers:")
+                number_seq_raw: str = input("Server input integers:\n")
 
                 try:
                     serd_num_seq: str = covert_number_raw(number_seq_raw=number_seq_raw)

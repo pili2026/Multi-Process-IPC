@@ -18,7 +18,7 @@ def pipe_server(main_stdin, w):
 
     with fd:
         while True:
-            number_seq_raw = input("Server input integers:")
+            number_seq_raw = input("Server input integers:\n")
 
             try:
                 serd_num_seq: str = covert_number_raw(number_seq_raw=number_seq_raw)
