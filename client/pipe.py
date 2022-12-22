@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 
 def pipe_client(read_pipe):
 
-    client_logger = logging.getLogger("pipe_client")
+    client_logger = logging.getLogger("Pipe client")
     client_logger.info(f"Pid:{os.getpid()}")
 
     with os.fdopen(read_pipe.fileno(), "r") as fd:
@@ -24,7 +24,7 @@ def pipe_client(read_pipe):
                 if number_seq != "quit":
                     client_logger.info(f"Received: {number_seq}")
                     med = statistics.median(number_seq)
-                    client_logger.info(f"Median: {med}")
+                    client_logger.info(f"Median is: {med}")
                 else:
                     break
             except Exception:

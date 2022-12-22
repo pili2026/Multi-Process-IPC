@@ -10,10 +10,10 @@ import statistics
 # Process2 logic
 def shared_memory_client(data_shm, stat_shm):
 
-    client_logger = logging.getLogger("shared_memory_client")
+    client_logger = logging.getLogger("Shared memory client")
     client_logger.info(f"Pid:{os.getpid()}")
-
     client_logger.info("Ready")
+
     while True:
         try:
             line = b""
@@ -35,7 +35,7 @@ def shared_memory_client(data_shm, stat_shm):
 
             if type(number_seq) is list:
                 mode = statistics.mode(number_seq)
-                client_logger.info(f"Mode: {mode}")
+                client_logger.info(f"Mode is: {mode}")
             else:
                 break
         except Exception:

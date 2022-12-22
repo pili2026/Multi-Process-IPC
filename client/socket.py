@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 
 def socket_client(socket_info: SOCKET_INFO):
 
-    client_logger = logging.getLogger("socket_client")
+    client_logger = logging.getLogger("Socket client")
     client_logger.info(f"Pid:{os.getpid()}")
 
     with socket.socket(socket_info.family, socket_info.type) as s:
@@ -31,7 +31,7 @@ def socket_client(socket_info: SOCKET_INFO):
 
                 if type(number_seq) is list:
                     mean = statistics.mean(number_seq)
-                    client_logger.info(f"Mean: {mean}")
+                    client_logger.info(f"Mean is: {mean}")
                 else:
                     s.close()
                     break

@@ -19,7 +19,7 @@ def server(
     data_shm: SynchronizedString,
     stat_shm: Synchronized,
 ):
-    server_logger = logging.getLogger("server")
+    server_logger = logging.getLogger("Server")
     server_logger.info(f"Pid:{os.getpid()}")
     sys.stdin = main_stdin
     s = socket.socket(socket_info.family, socket_info.type)
@@ -34,7 +34,9 @@ def server(
         with connection:
             server_logger.info("Ready")
             while True:
-                number_seq_raw: str = input("Server input integers:\n")
+                number_seq_raw: str = input(
+                    "Server is ready. You can type intergers and then click [ENTER].  Clients will show the mean, median, and mode of the input values:\n"
+                )
 
                 try:
                     serd_num_seq: str = covert_number_raw(number_seq_raw=number_seq_raw)
