@@ -33,12 +33,14 @@ Type `q` and click `[Enter]`
 `docker run -it --rm --name {app_name} {image_name}`
 
 #### Run socket service
-`docker run -it --rm --name my-running-app my-python-app --c=Client1`
+`docker run -it --rm --name {app_name} {image_name} --c=Client1`
 #### Run pipe service
-`docker run -it --rm --name my-running-app my-python-app --c=Client2`
+`docker run -it --rm --name {app_name} {image_name} --c=Client2`
 #### Run shared memory service
-`docker run -it --rm --name my-running-app my-python-app --c=Client1`
+`docker run -it --rm --name {app_name} {image_name} --c=Client1`
 
+### How to quit a service in docker
+Type `q` and click `[Enter]`
 
 ## TODO
 * Unit test
