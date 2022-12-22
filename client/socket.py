@@ -33,8 +33,11 @@ def socket_client(socket_info: SOCKET_INFO):
                     mean = statistics.mean(number_seq)
                     client_logger.info(f"Mean: {mean}")
                 else:
+                    s.close()
                     break
 
             except Exception:
-                client_logger.warning("Error", exc_info=True)
+                client_logger.warning("Error received")
+                s.close()
+                break
     client_logger.info("Client socket close")

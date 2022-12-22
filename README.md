@@ -20,7 +20,7 @@ Start the Mean, Median, Mode Calculator
 `python app,py -c=Client3`
 
 ### How to quit a service in execution
-Type `q` and click `[Enter]`
+Type `q` or `Q` then click `[Enter]`
 
 
 ## Docker
@@ -40,7 +40,10 @@ Type `q` and click `[Enter]`
 `docker run -it --rm --name {app_name} {image_name} --c=Client1`
 
 ### How to quit a service in docker
-Type `q` and click `[Enter]`
+Type `q` or `Q` then click `[Enter]`
 
 ## TODO
 * Unit test
+
+## Pending
+The order of log generation is inconsistent, causing the input message to be disrupted by the log.
