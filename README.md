@@ -43,7 +43,7 @@ Type `q` or `Q` then click `[Enter]`
 Type `q` or `Q` then click `[Enter]`
 
 ## TODO
-* Unit test
+* Unit test for multiprocessing
 
 ## Pending
 The order of log generation is inconsistent, causing the input message to be disrupted by the log.
