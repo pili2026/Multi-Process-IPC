@@ -2,15 +2,14 @@
 import json
 import logging
 import os
+import statistics
 
-from multiprocessing.connection import Connection
 
 # Setup simple logging
 logging.basicConfig(level=logging.INFO)
 
 
 def pipe_client(read_pipe):
-    import statistics
 
     client_logger = logging.getLogger("pipe_client")
     client_logger.info(f"Pid:{os.getpid()}")

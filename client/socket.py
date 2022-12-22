@@ -2,6 +2,7 @@ import os
 import logging
 import socket
 import json
+import statistics
 
 from utils.util import SOCKET_INFO, BUFF_SIZE
 
@@ -9,7 +10,6 @@ logging.basicConfig(level=logging.INFO)
 
 
 def socket_client(socket_info: SOCKET_INFO):
-    import statistics
 
     client_logger = logging.getLogger("socket_client")
     client_logger.info(f"Pid:{os.getpid()}")

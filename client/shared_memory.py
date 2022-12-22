@@ -4,10 +4,11 @@ import json
 import logging
 import os
 import time
+import statistics
+
 
 # Process2 logic
 def shared_memory_client(data_shm, stat_shm):
-    import statistics
 
     client_logger = logging.getLogger("shared_memory_client")
     client_logger.info(f"Pid:{os.getpid()}")
